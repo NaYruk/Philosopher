@@ -1,0 +1,190 @@
+EXPLICATIONS DES FONCTIONS POUR LE PROJET PHILOSOPHERS
+
+Memset : Prototype = void *memset(void *ptr, int value, size_t num);
+		 Utilisation = La fonction memset en C est utilisée pour remplir
+					   un bloc de mémoire avec une valeur donnée. Tres utilisée
+					   pour initialiser des blocs de memoire de maniere rapide et efficace.
+		 Librairie = string.h
+		 ptr = Pointeur vers la zone memoire a remplir.
+		 value = La valeur a attribuer a chaques octets de cette zone memoire valiue = int.
+		 num = le nombre d'octets a remplir dans la zone memoire.
+
+Malloc :  Prototype : void*malloc(size_t size);
+		  Utilisation : Utiliser pour allouer une certaines quantité de mémoire
+		  				pour pouvoir travailler dynamiquement.
+		  size = taille de ce qu'on veut allouer.
+		  Retour = NULL si une erreur.
+
+Free :	Prototype : voidfree(void *ptr);
+		Utilisation = Utiliser pour libérer de la mémoir allouer dynamiquement
+					  pour éviter les fuites de mémoire.
+		ptr = Un Pointeur vers la zone memoire a libérer.
+
+Write :	Prototype : ssize_twrite(int fd, const void *buf, size_t count) 
+		Utilisation : Utiliser pour écrire dans un fichier, un pipe, ou sur la sortie standard/erreur.
+		fd = descripteur de fichier pour indiquer ou ecrire.
+		buf = ce qu'on veut ecrire.
+		count = nombre de lettres a ecrire dans le fd.
+		Retour : Un nombre entier qui represente le nombre de caracters imprimee.
+		 		 Un nombre negatif si une erreur ce produit.
+
+Printf : Prototype : int printf(const char *format, ...);
+		 Utilisation : Utiliser pour afficher des donnée dans le terminal.
+		 Librairie : stdio.h
+		 format : Une chaine de caractere contenant des specificateurs de format.
+		 ... : Les argument a afficher en fonction des specificateurs de format.
+		 Retour : Un nombre entier qui represente le nombre de caracters imprimee.
+		 		  Un nombre negatif si une erreur ce produit.
+
+Usleep : Prototype : int usleep(useconds_t microseconds);
+		 Utilisation : Permet de suspendre l'execution d'un programme pendant un certain temps
+		 			   Specifier en microseconds.
+		 Librairie : unistd.h
+		 microseconds : Le nombre de microseconds pendant lesquelles l'execution du programme est
+		 				suspendue.
+		 Retour : En cas de succes 0
+		 		  En cas d'erreur valeur negative.
+
+Gettimofday : Prototype : int gettimeofday(struct timeval *tv, struct timezone *tz);
+			  Utilisation : Permet d'optenir l'heure actuelle du systeme avec une precision au niveau
+			  			    des microseconds.
+			  Librairie : sys/time.h
+			  tv : Un Pointeur vers une structure timeval qui sera remplis avec l'heure actuelle du
+			  	   systeme.
+			  tz : Un Pointeur vers une structure timezone, generalement ignorer. passer NULL.
+			  STRUCTURE timeval : contient deux champs : tv_sec : le nombre de secondes ecouler depuis
+			  													  le 1er Janvier 1970.
+														 tv_usec : le nombre de seconde ecoulee depuis 
+														 		   la derniere seconde complete.
+			  Retour : En cas de succes 0
+			  		   En cas d'erreur -1 avec sortie errno.
+
+Pthread_Create : Prototype : int pthread_create(pthread_t *thread, const pthread_attr_t *attr,
+												void *(*start_routine) (void *), void *arg);
+				 Utilisation : Permet de cree un nouveau thread (fil d'execution) dans un programme
+				 		       En utilisant la bibliotheque POSIX threads. Cela permet a un programme
+							   de s'executer de maniere concurrente. Avec plusieurs threads d'execution
+							   travaillant en parallele.
+				 Librairie : pthread.h
+				 thread : Un pointeur vers une variable de type pthread_t qui representera le thread cree.
+				 		  Apres l'appel a pthread_create, cette variable contiendra un identifiant unique
+						  pour le thread.
+				 attr : Un pointeur vers un objet pthread_attr_t qui definit les attribue du thread
+				 		(comme la priorite, la politique d'ordonnance etc...) Si ce parametre est NULL,
+						les attribue par defaults seront utiliser.
+				start_routine : Un pointeur vers la fonction qui sera exécutée par le thread.
+								Cette fonction doit avoir la signature void* (*start_routine)(void *),
+								c'est-à-dire qu'elle prend un argument de type void* et retourne un void*.
+				arg : Un argument de type void * qui sera passer a la fonction start_routine.
+					  Il peut etre NULL si aucun argument n'est necessaire.
+				Retour : En cas de succes return 0.
+						 En cas d'echec retourn un code erreur(entier positif) Code possible a utiliser pour
+						 diagnostiquer l'erreur.
+
+Pthread_Detach : Prototype : int pthread_detach(pthread_t thread);
+				 Utilisation : Utiliser pour detacher un thread, ce qui signifie que le thread n'a pas
+				 			   besoin d'etre joint via pthread_join. Cela permet de se detacher de
+							   l'execution principale et de liberer automatiquement ses ressources une
+							   fois qu'il a terminer son execution.
+							    Comme les ressources sont libérées automatiquement,
+								tu n'as pas besoin d'attendre la fin du thread avec pthread_join.
+								Cela peut être utile si tu ne veux pas que ton programme
+								principal attende la fin de tous les threads créés.
+				 Librairie : pthread.h
+				 thread : L'identifiant du thread que l'on souhaite detacher. Ce thread doit avoir ete cree
+				 		  avec pthread_create.
+				 Retour : 0 si le detachement a reussi.
+				 		  Si une erreur se produit la fonction return un code d'erreur.
+				 Cette fonction permet de detacher le thread sans l'attendre dans le processus principale.
+				 C'est utile pour continuer le programme principal en parallele.
+
+Pthread_Join : Prototype : int pthread_join(pthread_t thread, void **retval);
+			   Utilisation : Permet au thread appelant d'attendre la fin de l'execution d'un thread specifique.
+			   				 Utiliser pour synchroniser l'execution de differents threads, en particulier
+							 lorsqu'il est necessaire d'attendre qu'un thread se termine avant de continuer.
+							 Permet de liberer les ressources allouer au thread une fois qu'il est terminer.
+
+			   Librairie : pthread.h 
+			   thread : L'identifiant du thread sur lequel le programme appelant souhaite attendre.
+			   retval : Un pointeur vers un pointeur void ou le status de terminaison du thread sera stocker.
+			   			Si le status n'est pas necessaire passer NULL a cet argument.
+			   Retour : 0 si la fonction a reussi.
+			    		code erreur si la fonction echoue.
+				Exemple : #include <stdio.h>
+					      #include <pthread.h>
+						  #include <unistd.h>
+
+						  // Fonction exécutée par chaque thread
+						  void *mon_thread(void *arg) {
+						  printf("Thread en cours d'exécution\n");
+					 	  sleep(2);  // Simule un travail de 2 secondes
+					      printf("Thread terminé\n");
+					      return NULL;
+						  }
+						
+						  int main() {
+						  	pthread_t thread1, thread2;
+						
+						 	 // Créer les threads
+						  	pthread_create(&thread1, NULL, mon_thread, NULL);
+						  	pthread_create(&thread2, NULL, mon_thread, NULL);
+					  
+						  	// Attendre la fin des threads
+						  	pthread_join(thread1, NULL);  // Attendre la fin de thread1
+						  	pthread_join(thread2, NULL);  // Attendre la fin de thread2
+					  
+						  	// Une fois que les deux threads sont terminés
+						  	printf("Tous les threads sont terminés.\n");
+					  
+						  	return 0;
+						  }
+
+Pthread_Mutex_Init : Prototype : int pthread_mutex_init(pthread_mutex_t *mutex, const pthread_mutexattr_t *attr);
+					 Utilisation : Permet de cree un mutex(verrou), en multithreading. initialisation avant 
+					 			   utilisation.
+					 Librairie : pthread.h
+					 mutex : Pointeur vers un objet mutex que tu veux initialiser. Ce mutex sera utilise
+					 		 pour proteger des ressources partager entre plusieurs threads.
+					 attr : Un pointeur vers un objet pthread_mutexattr_t qui contient des attributs
+					 		spécifiques pour le mutex (par exemple, s'il est de type verrou exclusif
+							ou partagé). Si ce paramètre est NULL, les attributs par défaut sont utilisés.
+					 Retour : 0 si l'initialisation a reussi.
+					 		  Un code erreur si l'initialisation echoue.
+					 BIEN PENSER A DETRUIRE LE MUTEX A LA FIN.
+
+Pthread_mutex_destroy : Prototype : int pthread_mutex_destroy(pthread_mutex_t *mutex);
+						Utilisation : Utiliser pour detruire un mutex apres l'utilisation de celui ci.
+									  Cela libere les ressources systeme qui lui sont associes.
+									  Ce qui est essentiel pour eviter les fuites de memoires 
+									  dans un programme multithread.
+						Librairie : pthread.h
+						mutex : Pointeur vers le mutex a detruire. Ce mutex doit avoir été
+								initialisé au préalable avec pthread_mutex_init ou une initialisation statique.
+						Retour : 0 si la destruction a reussi.
+								 Erreur si la destruction a echouer.
+						A UTILISER APRES LA FIN DE L UTILISATION DU MUTEX !!!
+
+Pthread_mutex_lock : Prototype : int pthread_mutex_lock(pthread_mutex_t *mutex);
+					 Utilisation : Utiliser pour verrouiller un mutex afin de proteger une section
+					 			   critique dans un programme multithread. Lorsqu'un thread verrouille
+								   un mutex, il obtient l'accès exclusif à une section de code ou à une
+								   ressource partagée, empêchant d'autres threads d'y accéder simultanément.
+								   Cela garantit que la ressource partagée est utilisée de manière sécurisée
+								   par un seul thread à la fois.
+					 Librairie : pthread.h
+					 mutex : Pointeur vers le mutex a verrouiller.
+					 Retour : 0 si la fonction reussi
+					 		  Si la fonction echoue return un code erreur.
+					 SI UN MUTEX EST DEJA VERROUILLER PAR UN AUTRE THREAD, LE THREAD APPELANT SERA
+					 BLOQUER ET ATTENDRA QUE LE MUTEX SOIT DISPONIBLE POUR POUVOIR LE VERROUILLER A SON TOUR.
+					 sinon il acquiert directement le verrou.
+
+Pthread_mutex_unlock : Prototype : int pthread_mutex_unlock(pthread_mutex_t *mutex);
+					   Utilisation : Utiliser pour deverouiller un mutex prealablement lock.
+					   Librairie : pthread.h
+					   mutex : Pointeur vers le mutex a deverouiller.
+					   Retour : 0 si la fonction reussit 
+					   			Si la fonction echoue return un code erreur.
+					   Cela permet de deverouiller un mutex et de permettre au autres threads en attente
+					   de pouvoir recuperer l'acces sur la section critique proteger et de pouvoir potentiellement
+					   lock le mutex a leur tour.
