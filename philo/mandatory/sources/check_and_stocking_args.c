@@ -6,11 +6,13 @@
 /*   By: mmilliot <mmilliot@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 20:34:09 by mmilliot          #+#    #+#             */
-/*   Updated: 2025/01/23 00:07:17 by mmilliot         ###   ########.fr       */
+/*   Updated: 2025/01/23 00:25:43 by mmilliot         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
 #include "../includes/philosophers.h"
+
+/* simplify Atoi for verify the validity of each argument */
 
 int 	ft_atoi(char  *str)
 {
@@ -30,6 +32,11 @@ int 	ft_atoi(char  *str)
 	}
 	return (result);
 }
+
+/* 
+	Funtion for check the validy of each
+	arguments and stock the numbers in associate variables 
+*/
 
 int	check_and_stocking_args(t_data *data, char **argv)
 {
