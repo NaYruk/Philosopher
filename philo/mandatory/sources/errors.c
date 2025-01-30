@@ -6,7 +6,7 @@
 /*   By: mmilliot <mmilliot@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 19:45:53 by mmilliot          #+#    #+#             */
-/*   Updated: 2025/01/23 21:59:18 by mmilliot         ###   ########.fr       */
+/*   Updated: 2025/01/29 19:28:06 by mmilliot         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -59,4 +59,20 @@ int	creating_thread_error(t_data *data)
 	free_all(data, 1);
 	write(2, "Error in thread creation !\n", 27);
 	return (-1);
+}
+
+void	*error_in_a_thread(t_thread_data *thread_data)
+{
+	free_all(thread_data->data, 1);
+	free(thread_data);
+	write(2, "Error in a thread\n", 18);
+	return (NULL);
+}
+
+void	*error_with_a_fork(t_thread_data *thread_data)
+{
+	free_all(thread_data->data, 1);
+	free(thread_data);
+	write(2, "Error, with a fork\n", 19);
+	return (NULL);
 }

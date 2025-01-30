@@ -8,10 +8,10 @@ INCLUDES = -I./mandatory/includes
 CFLAGS = -Wall -Wextra -Werror -g $(INCLUDES)
 
 SRC_PATH = ./mandatory/sources
-SRC = $(SRC_PATH)/philosophers.c $(SRC_PATH)/errors.c $(SRC_PATH)/check_and_stocking_args.c
+SRC = $(SRC_PATH)/philosophers.c $(SRC_PATH)/errors.c $(SRC_PATH)/check_and_stocking_args.c $(SRC_PATH)/routine.c $(SRC_PATH)/forks.c  $(SRC_PATH)/get_times.c
 
 OBJ_PATH = ./mandatory/tmp
-OBJ = $(OBJ_PATH)/philosophers.o $(OBJ_PATH)/errors.o $(OBJ_PATH)/check_and_stocking_args.o
+OBJ = $(OBJ_PATH)/philosophers.o $(OBJ_PATH)/errors.o $(OBJ_PATH)/check_and_stocking_args.o $(OBJ_PATH)/routine.o $(OBJ_PATH)/forks.o $(SRC_PATH)/get_times.o
 
 NAME = philo
 

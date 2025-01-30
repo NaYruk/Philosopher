@@ -6,7 +6,7 @@
 /*   By: mmilliot <mmilliot@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 14:34:49 by mmilliot          #+#    #+#             */
-/*   Updated: 2025/01/23 21:59:48 by mmilliot         ###   ########.fr       */
+/*   Updated: 2025/01/29 19:14:31 by mmilliot         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -35,10 +35,12 @@ int	initialize_data(t_data **data)
 	pthread_mutex_init(&((*data)->mutex), NULL);
 	(*data)->nb_philo = 0;
 	(*data)->number_of_meals_for_exit = 0;
+	(*data)->nbr_philos_finish_meal = 0;
 	(*data)->time_for_die = 0;
 	(*data)->time_for_eat = 0;
 	(*data)->time_for_sleep = 0;
 	(*data)->philos = NULL;
+	(*data)->elapsed_time = 0;
 	return (0);
 }
 
@@ -57,8 +59,9 @@ int	initialize_each_philosophers(t_data *data)
 	}
 	while (++i < data->nb_philo)
 	{
-		data->philos[i].id = i + 1;
+		data->philos[i].id = i;
 		data->philos[i].number_of_meals = 0;
+		data->philos[i].last_meal_time = 0;
 		if (pthread_mutex_init(&data->philos[i].fork, NULL) != 0)
 		{
 			while (++tmp != i)
@@ -70,16 +73,7 @@ int	initialize_each_philosophers(t_data *data)
 	return (0);
 }
 
-void	*routine(void *thread_data)
-{
-	t_thread_data	*data_thread;
-
-	data_thread = (t_thread_data *)thread_data;
-	printf("Je suis le philosophe numéro : %d\n", data_thread->philosophers->id);
-	return (NULL);
-}
-
-int	create_threads_process(t_data *data)
+int	create_philos_threads(t_data *data)
 {
 	t_thread_data	*thread_data;
 	int	i;
@@ -93,12 +87,11 @@ int	create_threads_process(t_data *data)
 	{
 		thread_data[i].data = data;
 		thread_data[i].philosophers = &data->philos[i];
-		if (pthread_create(&data->philos[i].thread, NULL, &routine, &thread_data[i]) != 0)
+		if (pthread_create(&data->philos[i].thread, NULL, &do_philo_actions, &thread_data[i]) != 0)
 		{
 			free(thread_data);
 			return (creating_thread_error(data));
 		}
-		sleep(1);
 	}
 	i = -1;
     while (++i < data->nb_philo)
@@ -124,7 +117,7 @@ int	main(int argc, char **argv)
 		invalid_arguments_nbr(data);
 	if (initialize_each_philosophers(data) == -1)
 		return (1);
-	if (create_threads_process(data) == -1)
+	if (create_philos_threads(data) == -1)
 		return (1);
 	free_all(data, 1);
 	return (0);
