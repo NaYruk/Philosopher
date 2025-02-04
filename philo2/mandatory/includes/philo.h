@@ -1,0 +1,77 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: marcmilliot <marcmilliot@student.42.fr>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/04 10:25:19 by marcmilliot       #+#    #+#             */
+/*   Updated: 2025/02/04 15:25:38 by marcmilliot      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef PHILO_H
+# define PHILO_H
+
+/* Headers for Functions */
+
+# include <stdio.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <sys/time.h>
+# include <pthread.h>
+# include <stdbool.h>
+
+/* Struct for fork */
+
+typedef struct	s_fork
+{
+	pthread_mutex_t	fork;
+	int				fork_id;
+}				t_fork;
+
+/* Struct for each Philosopher */
+
+typedef struct	s_philos
+{
+	pthread_t	thread_id;
+	int			id;
+	int			time_last_meal;
+	int			counter_of_meal;
+	int 		finish_or_not;
+	t_fork		*left_fork;
+	t_fork		*right_fork;
+}				t_philos;
+
+/* Struct to bring all the data */
+
+typedef struct	s_data
+{
+	t_fork		*forks;
+	t_philos	*philos;
+	long		nbr_philo;
+	long		time_to_eat;
+	long		time_to_die;
+	long		time_to_sleep;
+	long		max_meals_nbr;
+	
+}				t_data;
+
+/* Definition of each Functions : */
+
+/* Functions error */
+int	error_nbr_arg(void);
+int	error_args(void);
+int	memory_error(void);
+int	mutex_error(t_data *data, int nbr_mutex_destroy);
+
+/* Function for free data */
+void	free_all(t_data *data);
+
+/* Function for parse args and detecte any errors */
+int	parse_args(char **argv);
+
+/* Function for Initialize data */
+int	init_data(char **argv, t_data **data);
+
+#endif
