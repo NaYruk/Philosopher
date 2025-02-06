@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marcmilliot <marcmilliot@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mmilliot <mmilliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:46:32 by marcmilliot       #+#    #+#             */
-/*   Updated: 2025/02/04 13:53:00 by marcmilliot      ###   ########.fr       */
+/*   Updated: 2025/02/06 17:10:14 by mmilliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,11 @@ int	memory_error(void)
 	return (-1);
 }
 
+int	thread_error(void)
+{
+	write(2, "Error in a Thread\n", 18);
+	return (-1);
+}
 int	mutex_error(t_data *data, int nbr_mutex_destroy)
 {
 	int	i;

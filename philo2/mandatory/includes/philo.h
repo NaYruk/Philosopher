@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marcmilliot <marcmilliot@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mmilliot <mmilliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:25:19 by marcmilliot       #+#    #+#             */
-/*   Updated: 2025/02/04 15:25:38 by marcmilliot      ###   ########.fr       */
+/*   Updated: 2025/02/06 17:46:55 by mmilliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct	s_data
 {
 	t_fork		*forks;
 	t_philos	*philos;
+	t_philos	*current_philo;
 	long		nbr_philo;
 	long		time_to_eat;
 	long		time_to_die;
@@ -57,6 +58,14 @@ typedef struct	s_data
 	
 }				t_data;
 
+/* Struct for join a Philo and all the data */
+
+typedef struct	s_philo_data
+{
+	t_philos	*philo;
+	t_data		*data;
+}				t_philo_data;
+
 /* Definition of each Functions : */
 
 /* Functions error */
@@ -64,6 +73,7 @@ int	error_nbr_arg(void);
 int	error_args(void);
 int	memory_error(void);
 int	mutex_error(t_data *data, int nbr_mutex_destroy);
+int	thread_error(void);
 
 /* Function for free data */
 void	free_all(t_data *data);
@@ -73,5 +83,8 @@ int	parse_args(char **argv);
 
 /* Function for Initialize data */
 int	init_data(char **argv, t_data **data);
+
+/* Function for create all Threads */
+int	threads_create(t_data *data);
 
 #endif

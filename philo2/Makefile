@@ -8,10 +8,10 @@ INCLUDES = -I./mandatory/includes
 CFLAGS = -Wall -Wextra -Werror -g $(INCLUDES)
 
 SRC_PATH = ./mandatory/sources
-SRC = $(SRC_PATH)/errors.c $(SRC_PATH)/main.c $(SRC_PATH)/parsing.c $(SRC_PATH)/init.c
+SRC = $(SRC_PATH)/errors.c $(SRC_PATH)/main.c $(SRC_PATH)/parsing.c $(SRC_PATH)/init.c $(SRC_PATH)/create_threads.c
 
 OBJ_PATH = ./mandatory/tmp
-OBJ = $(OBJ_PATH)/errors.o $(OBJ_PATH)/main.o $(OBJ_PATH)/parsing.o $(OBJ_PATH)/init.o
+OBJ = $(OBJ_PATH)/errors.o $(OBJ_PATH)/main.o $(OBJ_PATH)/parsing.o $(OBJ_PATH)/init.o $(OBJ_PATH)/create_threads.o
 NAME = philo
 
 all: $(NAME)

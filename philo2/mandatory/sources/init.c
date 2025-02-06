@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marcmilliot <marcmilliot@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mmilliot <mmilliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 12:56:47 by marcmilliot       #+#    #+#             */
-/*   Updated: 2025/02/04 14:34:08 by marcmilliot      ###   ########.fr       */
+/*   Updated: 2025/02/06 17:07:16 by mmilliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	init_philosophers(t_data *data)
 		data->philos[i].right_fork = &data->forks[data->philos[i].id - 1];
 	}
 	return (0);
-}
+} 
 
 /* 
 	Function for initialize each forks : 
@@ -63,7 +63,7 @@ static int	init_forks(t_data *data)
 		free(data);
 		return (memory_error());
 	}
-	i = -1;
+	i = 0;
 	while (i < data->nbr_philo)
 	{
 		data->forks[i].fork_id = i;
@@ -93,13 +93,14 @@ static long	convert_in_nbr(char *str)
 int	init_data(char **argv, t_data **data)
 {
 	(*data) = malloc(sizeof(t_data));
-	if (!data)
+	if (!(*data))
 		return (memory_error());
 	(*data)->nbr_philo = convert_in_nbr(argv[1]);
 	(*data)->time_to_die = convert_in_nbr(argv[2]);
 	(*data)->time_to_eat = convert_in_nbr(argv[3]);
 	(*data)->time_to_sleep = convert_in_nbr(argv[4]);
 	(*data)->max_meals_nbr = convert_in_nbr(argv[5]);
+	(*data)->current_philo = NULL;
 	if (init_forks(*data) == -1)
 		return (-1);
 	if (init_philosophers(*data) == -1)

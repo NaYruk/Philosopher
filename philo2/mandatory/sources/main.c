@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marcmilliot <marcmilliot@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mmilliot <mmilliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:44:58 by marcmilliot       #+#    #+#             */
-/*   Updated: 2025/02/04 14:12:27 by marcmilliot      ###   ########.fr       */
+/*   Updated: 2025/02/06 17:15:49 by mmilliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ int	main(int argc, char **argv)
 	if (parse_args(argv) == -1)
 		return (-1);
 	if (init_data(argv, &data) == -1)
+		return (-1);
+	if (threads_create(data) == -1)
 		return (-1);
 	free_all(data);
 	return (0);
