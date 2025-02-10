@@ -6,7 +6,7 @@
 /*   By: mmilliot <mmilliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:25:19 by marcmilliot       #+#    #+#             */
-/*   Updated: 2025/02/06 17:46:55 by mmilliot         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:59:42 by mmilliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,8 @@ typedef struct	s_philos
 {
 	pthread_t	thread_id;
 	int			id;
-	int			time_last_meal;
+	long		time_last_meal;
 	int			counter_of_meal;
-	int 		finish_or_not;
 	t_fork		*left_fork;
 	t_fork		*right_fork;
 }				t_philos;
@@ -49,13 +48,14 @@ typedef struct	s_data
 {
 	t_fork		*forks;
 	t_philos	*philos;
-	t_philos	*current_philo;
 	long		nbr_philo;
 	long		time_to_eat;
 	long		time_to_die;
 	long		time_to_sleep;
 	long		max_meals_nbr;
-	
+	long		start_time_in_ms;
+	long		start_time;
+	int 		nbr_philo_finish_meat;
 }				t_data;
 
 /* Struct for join a Philo and all the data */
@@ -86,5 +86,15 @@ int	init_data(char **argv, t_data **data);
 
 /* Function for create all Threads */
 int	threads_create(t_data *data);
+
+/* Function called by the Threads */
+void	*threads_process(void *arg);
+
+int		get_start_time(t_data *data);
+long	get_current_time(t_data *data);
+
+int	try_to_eat(t_philos *philo, t_data *data);
+int	take_forks(t_philos *philo, t_data *data);
+int	drop_forks(t_philos *philo);
 
 #endif

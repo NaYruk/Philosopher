@@ -5,13 +5,15 @@ RESET = \033[0m
 
 CC = cc 
 INCLUDES = -I./mandatory/includes
-CFLAGS = -Wall -Wextra -Werror -g $(INCLUDES)
+CFLAGS = -Wall -Wextra -Werror -g3 $(INCLUDES)
 
 SRC_PATH = ./mandatory/sources
-SRC = $(SRC_PATH)/errors.c $(SRC_PATH)/main.c $(SRC_PATH)/parsing.c $(SRC_PATH)/init.c $(SRC_PATH)/create_threads.c
+SRC = $(SRC_PATH)/errors.c $(SRC_PATH)/main.c $(SRC_PATH)/parsing.c $(SRC_PATH)/init.c $(SRC_PATH)/create_threads.c $(SRC_PATH)/threads_process.c \
+		$(SRC_PATH)/get_times.c $(SRC_PATH)/try_to_eat.c $(SRC_PATH)/forks.c
 
 OBJ_PATH = ./mandatory/tmp
-OBJ = $(OBJ_PATH)/errors.o $(OBJ_PATH)/main.o $(OBJ_PATH)/parsing.o $(OBJ_PATH)/init.o $(OBJ_PATH)/create_threads.o
+OBJ = $(OBJ_PATH)/errors.o $(OBJ_PATH)/main.o $(OBJ_PATH)/parsing.o $(OBJ_PATH)/init.o $(OBJ_PATH)/create_threads.o $(OBJ_PATH)/threads_process.o \
+		$(OBJ_PATH)/get_times.o $(OBJ_PATH)/try_to_eat.o $(OBJ_PATH)/forks.o
 NAME = philo
 
 all: $(NAME)

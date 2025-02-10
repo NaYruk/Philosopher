@@ -6,7 +6,7 @@
 /*   By: mmilliot <mmilliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 12:56:47 by marcmilliot       #+#    #+#             */
-/*   Updated: 2025/02/06 17:07:16 by mmilliot         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:54:28 by mmilliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ static int	init_philosophers(t_data *data)
 	{
 		data->philos[i].id = i + 1;
 		data->philos[i].time_last_meal = 0;
-		data->philos[i].finish_or_not = 0;
 		data->philos[i].counter_of_meal = 0;
 		if (data->philos[i].id == data->nbr_philo)
 			data->philos[i].left_fork = &data->forks[0];
@@ -100,7 +99,9 @@ int	init_data(char **argv, t_data **data)
 	(*data)->time_to_eat = convert_in_nbr(argv[3]);
 	(*data)->time_to_sleep = convert_in_nbr(argv[4]);
 	(*data)->max_meals_nbr = convert_in_nbr(argv[5]);
-	(*data)->current_philo = NULL;
+	(*data)->nbr_philo_finish_meat = 0;
+	(*data)->start_time = 0;
+	(*data)->start_time_in_ms = 0;
 	if (init_forks(*data) == -1)
 		return (-1);
 	if (init_philosophers(*data) == -1)

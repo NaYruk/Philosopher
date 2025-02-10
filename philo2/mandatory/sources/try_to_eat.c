@@ -1,46 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   try_to_eat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmilliot <mmilliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/04 10:44:58 by marcmilliot       #+#    #+#             */
-/*   Updated: 2025/02/10 11:52:06 by mmilliot         ###   ########.fr       */
+/*   Created: 2025/02/10 14:48:28 by mmilliot          #+#    #+#             */
+/*   Updated: 2025/02/10 16:57:34 by mmilliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-/* Function for free all data */
-
-void	free_all(t_data *data)
+int	try_to_eat(t_philos *philo, t_data *data)
 {
-	int	i;
-
-	i = -1;
-	while (++i < data->nbr_philo)
-		pthread_mutex_destroy(&data->forks[i].fork);
-	free(data->forks);
-	if (data->philos)
-		free(data->philos);
-	free(data);
-	return ;
-}
-
-int	main(int argc, char **argv)
-{
-	t_data *data;
-	
-	data = NULL;
-	if (argc != 6)
-		return (error_nbr_arg());
-	if (parse_args(argv) == -1)
+	(void)data;
+	if (take_forks(philo, data) == -1)
 		return (-1);
-	if (init_data(argv, &data) == -1)
+	philo->time_last_meal = get_current_time(data);
+	if (philo->time_last_meal == -1)
 		return (-1);
-	if (threads_create(data) == -1)
-		return (-1);
-	free_all(data);
+	printf("%ld %d is eating\n", philo->time_last_meal, philo->id);
+	philo->counter_of_meal++;
+	if (philo->counter_of_meal == data->max_meals_nbr)
+		data->nbr_philo_finish_meat++;
 	return (0);
 }
