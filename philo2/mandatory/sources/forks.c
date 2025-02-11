@@ -6,7 +6,7 @@
 /*   By: mmilliot <mmilliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:29:39 by mmilliot          #+#    #+#             */
-/*   Updated: 2025/02/10 16:57:25 by mmilliot         ###   ########.fr       */
+/*   Updated: 2025/02/11 12:56:14 by mmilliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,41 +14,41 @@
 
 int	take_forks_even(t_philos *philo, t_data *data)
 {
-	long	actual_time;
+	long	time;
 	
-	actual_time = 0;
+	time = 0;
 	if (pthread_mutex_lock(&philo->left_fork->fork) != 0)
 		return (-1);
-	actual_time = get_current_time(data);
-	if (actual_time == -1)
+	time = get_current_time(data);
+	if (time == -1)
 		return (-1);
-	printf("%ld %d has taken a fork\n", actual_time, philo->id);
+	printf("%ld %d has taken a fork\n", time - data->start_time, philo->id);
 	if (pthread_mutex_lock(&philo->right_fork->fork) != 0)
 		return (-1);
-	actual_time = get_current_time(data);
-	if (actual_time == -1)
+	time = get_current_time(data);
+	if (time == -1)
 		return (-1);
-	printf("%ld %d has taken a fork\n", actual_time, philo->id);
+	printf("%ld %d has taken a fork\n", time - data->start_time, philo->id);
 	return (0);
 }
 
 int	take_forks_odd(t_philos *philo, t_data *data)
 {
-	long	actual_time;
+	long	time;
 	
-	actual_time = 0;
+	time = 0;
 	if (pthread_mutex_lock(&philo->right_fork->fork) != 0)
 		return (-1);
-	actual_time = get_current_time(data);
-	if (actual_time == -1)
+	time = get_current_time(data);
+	if (time == -1)
 		return (-1);
-	printf("%ld %d has taken a fork\n", actual_time, philo->id);
+	printf("%ld %d has taken a fork\n", time - data->start_time, philo->id);
 	if (pthread_mutex_lock(&philo->left_fork->fork) != 0)
 		return (-1);
-	actual_time = get_current_time(data);
-	if (actual_time == -1)
+	time = get_current_time(data);
+	if (time == -1)
 		return (-1);
-	printf("%ld %d has taken a fork\n", actual_time, philo->id);
+	printf("%ld %d has taken a fork\n", time - data->start_time, philo->id);
 	return (0);
 }
 

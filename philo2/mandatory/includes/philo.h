@@ -6,7 +6,7 @@
 /*   By: mmilliot <mmilliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:25:19 by marcmilliot       #+#    #+#             */
-/*   Updated: 2025/02/10 16:59:42 by mmilliot         ###   ########.fr       */
+/*   Updated: 2025/02/11 14:52:38 by mmilliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include <pthread.h>
 # include <stdbool.h>
 
+typedef struct s_data t_data;
+
 /* Struct for fork */
 
 typedef struct	s_fork
@@ -34,6 +36,7 @@ typedef struct	s_fork
 
 typedef struct	s_philos
 {
+	t_data		*data;
 	pthread_t	thread_id;
 	int			id;
 	long		time_last_meal;
@@ -46,16 +49,18 @@ typedef struct	s_philos
 
 typedef struct	s_data
 {
-	t_fork		*forks;
-	t_philos	*philos;
-	long		nbr_philo;
-	long		time_to_eat;
-	long		time_to_die;
-	long		time_to_sleep;
-	long		max_meals_nbr;
-	long		start_time_in_ms;
-	long		start_time;
-	int 		nbr_philo_finish_meat;
+	pthread_mutex_t	data_mutex;
+	pthread_t		monitoring_id;
+	t_fork			*forks;
+	t_philos		*philos;
+	bool			program_running;
+	long			nbr_philo;
+	long			time_to_eat;
+	long			time_to_die;
+	long			time_to_sleep;
+	long			max_meals_nbr;
+	long			start_time;
+	int 			nbr_philo_finish_meat;
 }				t_data;
 
 /* Struct for join a Philo and all the data */
@@ -85,16 +90,20 @@ int	parse_args(char **argv);
 int	init_data(char **argv, t_data **data);
 
 /* Function for create all Threads */
-int	threads_create(t_data *data);
+int	threads_create(t_data *data,  t_philos *philos);
 
 /* Function called by the Threads */
 void	*threads_process(void *arg);
 
-int		get_start_time(t_data *data);
+/* Function for get times */
+long	get_start_time(t_data *data);
 long	get_current_time(t_data *data);
 
+/* Function called in the meal */
 int	try_to_eat(t_philos *philo, t_data *data);
 int	take_forks(t_philos *philo, t_data *data);
 int	drop_forks(t_philos *philo);
+
+void	*monitoring(void *arg);
 
 #endif

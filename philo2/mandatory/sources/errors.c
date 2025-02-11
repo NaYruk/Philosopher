@@ -6,7 +6,7 @@
 /*   By: mmilliot <mmilliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:46:32 by marcmilliot       #+#    #+#             */
-/*   Updated: 2025/02/06 17:10:14 by mmilliot         ###   ########.fr       */
+/*   Updated: 2025/02/11 09:56:50 by mmilliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ int	mutex_error(t_data *data, int nbr_mutex_destroy)
 
 	i = -1;
 	write(2, "Error in a Mutex\n", 17);
+	if (i + 1 < nbr_mutex_destroy)
+		pthread_mutex_destroy(&data->data_mutex);
 	while (++i < nbr_mutex_destroy)
 		pthread_mutex_destroy(&data->forks[i].fork);
 	free(data->forks);
