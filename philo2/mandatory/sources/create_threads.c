@@ -6,7 +6,7 @@
 /*   By: mmilliot <mmilliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:59:20 by mmilliot          #+#    #+#             */
-/*   Updated: 2025/02/11 15:42:51 by mmilliot         ###   ########.fr       */
+/*   Updated: 2025/02/12 11:57:10 by mmilliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ int	waiting_threads(t_data *data, t_philos *philos)
 			return (-1);
 		}
 	}
-	/* if (pthread_join(data->monitoring_id, NULL) != 0)
+	if (pthread_join(data->monitoring_id, NULL) != 0)
 	{
 		free_all(data);
 		return (-1);
-	} */
+	}
 	return (0);
 }
 
@@ -48,11 +48,11 @@ int	threads_create(t_data *data, t_philos *philos)
 
 	i = -1;
 	data->start_time = get_start_time(data);
-	/* if (pthread_create(&data->monitoring_id, NULL, &monitoring, data) != 0)
+	if (pthread_create(&data->monitoring_id, NULL, &monitoring, data) != 0)
 	{
 		free_all(data);
 		return (thread_error());
-	} */
+	}
 	while (++i < data->nbr_philo)
 	{
 		if (pthread_create(&philos[i].thread_id, NULL, &threads_process, &philos[i]) != 0)
