@@ -6,7 +6,7 @@
 /*   By: mmilliot <mmilliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 14:56:41 by mmilliot          #+#    #+#             */
-/*   Updated: 2025/02/12 18:55:14 by mmilliot         ###   ########.fr       */
+/*   Updated: 2025/02/13 19:28:26 by mmilliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,9 @@ static void	set_philo_data(int i, t_philo **philo, t_data *data, char **argv)
 	else
 		(*philo)[i].max_meal_nbr = -1;
 	(*philo)[i].current_meal_nbr = 0;
+	(*philo)[i].stop_process = &data->stop_process;
+	(*philo)[i].last_meal_time = 0;
+	(*philo)[i].dead_or_not = 0;
 	(*philo)[i].time_to_eat = convert_char_to_int(argv[3]);
 	(*philo)[i].time_to_die = convert_char_to_int(argv[2]);
 	(*philo)[i].time_to_sleep = convert_char_to_int(argv[4]);
@@ -51,6 +54,7 @@ static void	set_philo_data(int i, t_philo **philo, t_data *data, char **argv)
 	(*philo)[i].right_fork = &data->forks[i];
 	(*philo)[i].eat_mutex = &data->eat_mutex;
 	(*philo)[i].write_mutex = &data->write_mutex;
+	(*philo)[i].stop_process_mutex = &data->stop_mutex;
 }
 
 static int	initialize_philos(t_philo **philo, t_data *data, char **argv)
@@ -75,15 +79,24 @@ int	initialize_data(t_data **data)
 		return (write_an_error("Error ! Malloc error\n"));
 	(*data)->forks = NULL;
 	(*data)->philo = NULL;
+	(*data)->stop_process = 0;
+	(*data)->meals_finished = 0;
+	if (pthread_mutex_init(&(*data)->stop_mutex, NULL) != 0)
+	{
+		free((*data));
+		return (write_an_error("Error ! Mutex Init error !\n"));
+	}
 	if (pthread_mutex_init(&(*data)->eat_mutex, NULL) != 0)
 	{
 		free((*data));
+		pthread_mutex_destroy(&(*data)->stop_mutex);
 		return (write_an_error("Error ! Mutex Init error !\n"));
 	}
 	if (pthread_mutex_init(&(*data)->write_mutex, NULL) != 0)
 	{
 		free((*data));
 		pthread_mutex_destroy(&(*data)->eat_mutex);
+		pthread_mutex_destroy(&(*data)->stop_mutex);
 		return (write_an_error("Error ! Mutex Init error !\n"));
 	}
 	return (0);
@@ -106,12 +119,18 @@ int	init_all(t_data **data, char **argv)
 	if (initialize_forks(&(*data)->forks, convert_char_to_int(argv[1])) == 1)
 	{
 		free_forks((*data)->forks, convert_char_to_int(argv[1]));
+		pthread_mutex_destroy(&(*data)->stop_mutex);
+		pthread_mutex_destroy(&(*data)->eat_mutex);
+		pthread_mutex_destroy(&(*data)->write_mutex);
 		free(data);
 		return (1);
 	}
 	if (initialize_philos(&(*data)->philo, *data, argv) == 1)
 	{
 		free_forks((*data)->forks, convert_char_to_int(argv[1]));
+		pthread_mutex_destroy(&(*data)->stop_mutex);
+		pthread_mutex_destroy(&(*data)->eat_mutex);
+		pthread_mutex_destroy(&(*data)->write_mutex);
 		free(data);
 		return (1);
 	}

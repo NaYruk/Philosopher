@@ -6,7 +6,7 @@
 /*   By: mmilliot <mmilliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 13:48:04 by mmilliot          #+#    #+#             */
-/*   Updated: 2025/02/12 18:48:22 by mmilliot         ###   ########.fr       */
+/*   Updated: 2025/02/13 15:04:29 by mmilliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ int	main(int argc, char **argv)
 	if (init_all(&data, argv) == 1)
 		return (1);
 	if (create_threads(data) == 1)
-		return (1);
+		return (free_data(&data), 1);
+	if (wait_threads(data) == 1)
+		return (free_data(&data), 1);
 	free_data(&data);
 	return (0);
 }

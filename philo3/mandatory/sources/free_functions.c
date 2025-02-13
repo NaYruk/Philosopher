@@ -6,7 +6,7 @@
 /*   By: mmilliot <mmilliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 16:33:20 by mmilliot          #+#    #+#             */
-/*   Updated: 2025/02/12 18:52:05 by mmilliot         ###   ########.fr       */
+/*   Updated: 2025/02/13 15:37:03 by mmilliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	free_data(t_data **data)
 			free((*data)->philo);
 		pthread_mutex_destroy(&(*data)->eat_mutex);
 		pthread_mutex_destroy(&(*data)->write_mutex);
+		pthread_mutex_destroy(&(*data)->stop_mutex);
 		free(*data);
 	}
 }
