@@ -6,7 +6,7 @@
 /*   By: mmilliot <mmilliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 13:30:44 by mmilliot          #+#    #+#             */
-/*   Updated: 2025/02/13 20:31:38 by mmilliot         ###   ########.fr       */
+/*   Updated: 2025/02/14 18:55:37 by mmilliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <pthread.h>
 # include <stdlib.h>
 # include <sys/time.h>
+# include <limits.h>
 
 # define ROUGE	"\033[31m"
 # define RESET	"\033[0m"
@@ -44,7 +45,6 @@ typedef struct s_philo
 	pthread_t		thread;
 	int				id;
 	int				dead_or_not;
-	int				*stop_process;
 	int				nbr_philo;
 	int				max_meal_nbr;
 	int				current_meal_nbr;
@@ -59,12 +59,12 @@ typedef struct s_philo
 	pthread_mutex_t	*stop_process_mutex;
 	pthread_mutex_t	*eat_mutex;
 	pthread_mutex_t	*write_mutex;
+	pthread_mutex_t	*time_mutex;
 }				t_philo;
 
 /* Struct for regroup all data */
 typedef struct s_data
 {
-	int				stop_process;
 	int				meals_finished;
 	t_fork			*forks;
 	t_philo			*philo;
@@ -72,6 +72,7 @@ typedef struct s_data
 	pthread_mutex_t	stop_mutex;
 	pthread_mutex_t	eat_mutex;
 	pthread_mutex_t	write_mutex;
+	pthread_mutex_t	time_mutex;
 }	t_data;
 
 /* Declaration of Functions */
@@ -84,20 +85,23 @@ int		check_args(char **argv);
 
 /* Function for Initialize each Structure */
 int		init_all(t_data **data, char **argv);
+int		initialize_philos(t_philo **philo, t_data *data, char **argv);
 
 /* Utils Functions */
 int		convert_char_to_int(char *str);
 int		get_time(long	*time);
+void	ft_usleep(long milliseconds, t_philo *philo);
 
 /* Function for free data and mutex */
 void	free_forks(t_fork *forks, int nbr_forks);
 void	free_data(t_data **data);
+void	destroy_mutex(t_data **data);
 
 /* Function for create all threads */
 int		create_threads(t_data *data);
 
 /* Function for wait the end of each Threads */
-int	wait_threads(t_data *data);
+int		wait_threads(t_data *data);
 
 /* Function execute by the monitoring thread ! */
 void	*monitoring(void *arg);
@@ -106,7 +110,7 @@ void	*monitoring(void *arg);
 void	*philo_routine(void *arg);
 
 /* Routines Philosophers Functions */
-int	try_to_eat(t_philo *philo);
+int		try_to_eat(t_philo *philo);
 
 /* Function for write any state message for threads */
 int		write_msg(t_philo *philo, char *str);

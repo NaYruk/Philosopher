@@ -6,18 +6,32 @@
 /*   By: mmilliot <mmilliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:23:03 by mmilliot          #+#    #+#             */
-/*   Updated: 2025/02/13 20:30:36 by mmilliot         ###   ########.fr       */
+/*   Updated: 2025/02/14 19:05:10 by mmilliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
+
+static void	set_philo_death_value(t_data *data)
+{
+	int	i;
+
+	i = -1;
+	while (++i < data->philo[0].nbr_philo)
+	{
+		pthread_mutex_lock(&data->stop_mutex);
+		data->philo[i].dead_or_not = 1;
+		pthread_mutex_unlock(&data->stop_mutex);
+	}
+	return ;
+}
 
 /* Function for check if the nbr of meals is reach */
 
 bool	all_meats_finished(t_data *data)
 {
 	int	i;
-	
+
 	i = -1;
 	while (++i < data->philo[0].nbr_philo)
 	{
@@ -30,24 +44,42 @@ bool	all_meats_finished(t_data *data)
 		pthread_mutex_unlock(&data->eat_mutex);
 	}
 	if (data->meals_finished == data->philo[0].nbr_philo)
+	{
+		set_philo_death_value(data);
 		return (true);
+	}
 	return (false);
 }
 
-static void	set_philo_death_value(t_data *data)
+static bool	check_death(t_data *data, long actual_time, int i)
 {
-	int i;
-
-	i = -1;
-	while (++i < data->philo[0].nbr_philo)
+	get_time(&actual_time);
+	if (data->philo[i].last_meal_time > 0)
 	{
-		data->philo[i].dead_or_not = 1;
+		if (data->philo[i].time_to_die
+			< actual_time - data->philo[i].last_meal_time)
+		{
+			write_msg(&data->philo[i], ROUGE "died\n" RESET);
+			set_philo_death_value(data);
+			pthread_mutex_unlock(&data->eat_mutex);
+			return (true);
+		}
 	}
-	return ;
+	else
+	{
+		if (data->philo[i].time_to_die
+			< actual_time - data->philo[i].start_time)
+		{
+			write_msg(&data->philo[i], ROUGE "died\n" RESET);
+			set_philo_death_value(data);
+			pthread_mutex_unlock(&data->eat_mutex);
+			return (true);
+		}
+	}
+	return (false);
 }
 
 /* Function for check if a Philo is dead */
-
 bool	check_philo_death(t_data *data)
 {
 	int		i;
@@ -55,29 +87,14 @@ bool	check_philo_death(t_data *data)
 
 	i = -1;
 	actual_time = 0;
+	pthread_mutex_lock(&data->eat_mutex);
 	while (++i < data->philo[0].nbr_philo)
 	{
-		get_time(&actual_time);
-		if (data->philo[i].last_meal_time > 0)
-		{
-			if (data->philo[i].time_to_die < actual_time - data->philo[i].last_meal_time)
-			{
-				write_msg(&data->philo[i], ROUGE "died\n" RESET);
-				set_philo_death_value(data);
-				return (true);
-			}
-		}
-		else
-		{
-			if (data->philo[i].time_to_die < actual_time - data->philo[i].start_time)
-			{
-				write_msg(&data->philo[i], ROUGE "died\n" RESET);
-				set_philo_death_value(data);
-				return (true);
-			}
-		}
+		if (check_death(data, actual_time, i) == true)
+			return (true);
 	}
-	return (false);	
+	pthread_mutex_unlock(&data->eat_mutex);
+	return (false);
 }
 
 /* 
@@ -92,26 +109,16 @@ bool	check_philo_death(t_data *data)
 void	*monitoring(void *arg)
 {
 	t_data	*data;
-	
+
 	data = (t_data *)arg;
-	usleep(100);
+	ft_usleep(1, data->philo);
 	while (1)
 	{
 		if (check_philo_death(data) == true)
-		{
-			pthread_mutex_lock(&data->stop_mutex);
-			data->stop_process = 1;
-			pthread_mutex_unlock(&data->stop_mutex);
 			break ;
-		}
 		if (all_meats_finished(data) == true)
-		{
-			pthread_mutex_lock(&data->stop_mutex);
-			data->stop_process = 1;
-			pthread_mutex_unlock(&data->stop_mutex);
 			break ;
-		}
-		usleep(1000);
+		ft_usleep(1, data->philo);
 	}
 	return (NULL);
 }

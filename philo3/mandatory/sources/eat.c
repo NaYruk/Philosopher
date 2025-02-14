@@ -6,7 +6,7 @@
 /*   By: mmilliot <mmilliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:51:53 by mmilliot          #+#    #+#             */
-/*   Updated: 2025/02/13 20:31:53 by mmilliot         ###   ########.fr       */
+/*   Updated: 2025/02/14 18:35:17 by mmilliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ static void	attribute_fork(t_philo *philo)
 int	try_to_eat(t_philo *philo)
 {
 	attribute_fork(philo);
-	write_msg(philo, VERT "is eating\n" RESET);
 	pthread_mutex_lock(philo->eat_mutex);
+	write_msg(philo, VERT "is eating\n" RESET);
 	philo->current_meal_nbr++;
 	if (get_time(&philo->last_meal_time) == -1)
 		return (1);
 	pthread_mutex_unlock(philo->eat_mutex);
-	usleep(philo->time_to_eat * 1000);
+	ft_usleep(philo->time_to_eat, philo);
 	return (0);
 }

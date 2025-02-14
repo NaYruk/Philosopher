@@ -6,7 +6,7 @@
 /*   By: mmilliot <mmilliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 13:48:37 by mmilliot          #+#    #+#             */
-/*   Updated: 2025/02/13 20:16:26 by mmilliot         ###   ########.fr       */
+/*   Updated: 2025/02/14 18:56:49 by mmilliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,20 @@ int	write_an_error(char *str)
 
 int	convert_char_to_int(char *str)
 {
-	int	i;
-	int	result;
+	int						i;
+	unsigned long long int	result;
 
 	if (!str)
-		return (1);
+		return (-1);
 	i = -1;
 	result = 0;
 	while (str[++i] != '\0')
+	{
 		result = result * 10 + (str[i] - '0');
-	return (result);
+	}
+	if (result > INT_MAX)
+		return (-1);
+	return ((int)result);
 }
 
 int	get_time(long	*time)
@@ -57,11 +61,38 @@ int	get_time(long	*time)
 
 int	write_msg(t_philo *philo, char *str)
 {
-	pthread_mutex_lock(philo->write_mutex);
-	if (get_time(&philo->current_time) == -1)
+	long	current_time;
+
+	current_time = 0;
+	if (get_time(&current_time) == -1)
 		return (1);
+	pthread_mutex_lock(philo->stop_process_mutex);
 	if (philo->dead_or_not == 0)
-		printf("%ld %d %s", philo->current_time - philo->start_time, philo->id, str);
-	pthread_mutex_unlock(philo->write_mutex);
+		printf("%ld %d %s", current_time - philo->start_time, philo->id, str);
+	pthread_mutex_unlock(philo->stop_process_mutex);
 	return (0);
+}
+
+void	ft_usleep(long milliseconds, t_philo *philo)
+{
+	long	start_time;
+	long	current_time;
+
+	current_time = 0;
+	start_time = 0;
+	get_time(&start_time);
+	get_time(&current_time);
+	while (current_time < start_time + milliseconds)
+	{
+		pthread_mutex_lock(philo->stop_process_mutex);
+		if (philo->dead_or_not == 1)
+		{
+			pthread_mutex_unlock(philo->stop_process_mutex);
+			break ;
+		}
+		pthread_mutex_unlock(philo->stop_process_mutex);
+		usleep(200);
+		get_time(&current_time);
+	}
+	return ;
 }
