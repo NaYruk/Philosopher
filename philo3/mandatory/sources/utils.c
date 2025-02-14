@@ -6,7 +6,7 @@
 /*   By: mmilliot <mmilliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 13:48:37 by mmilliot          #+#    #+#             */
-/*   Updated: 2025/02/14 18:56:49 by mmilliot         ###   ########.fr       */
+/*   Updated: 2025/02/14 19:57:26 by mmilliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int	write_msg(t_philo *philo, char *str)
 {
 	long	current_time;
 
+	pthread_mutex_lock(philo->write_mutex);
 	current_time = 0;
 	if (get_time(&current_time) == -1)
 		return (1);
@@ -70,6 +71,7 @@ int	write_msg(t_philo *philo, char *str)
 	if (philo->dead_or_not == 0)
 		printf("%ld %d %s", current_time - philo->start_time, philo->id, str);
 	pthread_mutex_unlock(philo->stop_process_mutex);
+	pthread_mutex_unlock(philo->write_mutex);
 	return (0);
 }
 
@@ -91,7 +93,7 @@ void	ft_usleep(long milliseconds, t_philo *philo)
 			break ;
 		}
 		pthread_mutex_unlock(philo->stop_process_mutex);
-		usleep(200);
+		usleep(500);
 		get_time(&current_time);
 	}
 	return ;

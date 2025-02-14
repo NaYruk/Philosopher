@@ -6,7 +6,7 @@
 /*   By: mmilliot <mmilliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 13:30:44 by mmilliot          #+#    #+#             */
-/*   Updated: 2025/02/14 18:55:37 by mmilliot         ###   ########.fr       */
+/*   Updated: 2025/02/14 20:03:40 by mmilliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,11 @@
 # include <sys/time.h>
 # include <limits.h>
 
-# define ROUGE	"\033[31m"
-# define RESET	"\033[0m"
-# define VERT	"\033[32m"
+# define ROUGE		"\033[31m"
+# define RESET		"\033[0m"
+# define VERT		"\033[32m"
+# define MAGENTA	"\033[35m"
+# define JAUNE		"\033[33m"
 
 /* 
 	Struct for each fork :

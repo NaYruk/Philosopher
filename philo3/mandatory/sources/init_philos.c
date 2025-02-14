@@ -6,7 +6,7 @@
 /*   By: mmilliot <mmilliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 18:54:55 by mmilliot          #+#    #+#             */
-/*   Updated: 2025/02/14 18:59:39 by mmilliot         ###   ########.fr       */
+/*   Updated: 2025/02/14 19:38:21 by mmilliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static void	set_philo_data(int i, t_philo **philo, t_data *data, char **argv)
 	(*philo)[i].current_meal_nbr = 0;
 	(*philo)[i].last_meal_time = 0;
 	(*philo)[i].dead_or_not = 0;
+	(*philo)[i].start_time = 0;
 	(*philo)[i].time_to_eat = convert_char_to_int(argv[3]);
 	(*philo)[i].time_to_die = convert_char_to_int(argv[2]);
 	(*philo)[i].time_to_sleep = convert_char_to_int(argv[4]);

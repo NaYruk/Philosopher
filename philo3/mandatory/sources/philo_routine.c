@@ -6,7 +6,7 @@
 /*   By: mmilliot <mmilliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:25:27 by mmilliot          #+#    #+#             */
-/*   Updated: 2025/02/14 18:59:29 by mmilliot         ###   ########.fr       */
+/*   Updated: 2025/02/14 20:03:32 by mmilliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	sleeping(t_philo *philo)
 {
 	pthread_mutex_unlock(&philo->left_fork->fork);
 	pthread_mutex_unlock(&philo->right_fork->fork);
-	if (write_msg(philo, "is sleeping\n") == 1)
+	if (write_msg(philo, MAGENTA "is sleeping\n" RESET) == 1)
 		return (1);
 	ft_usleep(philo->time_to_sleep, philo);
 	return (0);
@@ -24,7 +24,7 @@ static int	sleeping(t_philo *philo)
 
 static int	thinking(t_philo *philo)
 {
-	if (write_msg(philo, "is thinking\n") == 1)
+	if (write_msg(philo, JAUNE "is thinking\n" RESET) == 1)
 		return (1);
 	return (0);
 }
