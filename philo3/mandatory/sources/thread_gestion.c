@@ -6,7 +6,7 @@
 /*   By: mmilliot <mmilliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 18:15:15 by mmilliot          #+#    #+#             */
-/*   Updated: 2025/02/14 18:57:17 by mmilliot         ###   ########.fr       */
+/*   Updated: 2025/02/18 17:37:05 by mmilliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,12 @@
 int	create_threads(t_data *data)
 {
 	int	i;
+	long	start_time;
 
+	i = -1;
+	get_time(&start_time);
+	while (++i < data->philo[0].nbr_philo)
+		data->philo[i].start_time = start_time;
 	i = -1;
 	while (++i < data->philo[0].nbr_philo)
 	{

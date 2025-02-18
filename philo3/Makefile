@@ -3,9 +3,9 @@ CYAN = \033[36m
 YELLOW = \033[33m
 RESET = \033[0m
 
-CC = cc 
+CC = gcc 
 INCLUDES = -I./mandatory/includes
-CFLAGS = -Wall -Wextra -Werror -g3 $(INCLUDES)
+CFLAGS = -Wall -Wextra -Werror -g $(INCLUDES)
 
 SRC_PATH = ./mandatory/sources
 SRC = $(SRC_PATH)/main.c $(SRC_PATH)/utils.c $(SRC_PATH)/check_args.c $(SRC_PATH)/init_all.c $(SRC_PATH)/free_functions.c $(SRC_PATH)/thread_gestion.c \

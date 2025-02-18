@@ -6,7 +6,7 @@
 /*   By: mmilliot <mmilliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:25:27 by mmilliot          #+#    #+#             */
-/*   Updated: 2025/02/14 20:03:32 by mmilliot         ###   ########.fr       */
+/*   Updated: 2025/02/18 15:15:41 by mmilliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,6 @@ void	*philo_routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	pthread_mutex_lock(philo->time_mutex);
-	if (get_time(&philo->start_time) == -1)
-		return (NULL);
-	pthread_mutex_unlock(philo->time_mutex);
 	if (philo->nbr_philo == 1)
 		return (philo_alone(philo), NULL);
 	pthread_mutex_lock(philo->stop_process_mutex);
