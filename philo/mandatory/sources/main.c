@@ -6,7 +6,7 @@
 /*   By: mmilliot <mmilliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 13:48:04 by mmilliot          #+#    #+#             */
-/*   Updated: 2025/02/19 17:26:50 by mmilliot         ###   ########.fr       */
+/*   Updated: 2025/02/19 18:23:59 by mmilliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ int	main(int argc, char **argv)
 	t_data	*data;
 
 	data = NULL;
-	(void)argc;
-	(void)argv;
 	if (argc < 5 || argc > 6)
 		return (write_an_error("Error ! nbr of args is invalid\n"));
 	if (check_args(argv) == 1)

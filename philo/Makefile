@@ -5,14 +5,15 @@ RESET = \033[0m
 
 CC = cc 
 INCLUDES = -I./mandatory/includes
-CFLAGS = -Wall -Wextra -Werror -g $(INCLUDES)
+CFLAGS = -Wall -Wextra -Werror $(INCLUDES)
 
 SRC_PATH = ./mandatory/sources
-SRC = $(SRC_PATH)/philosophers.c $(SRC_PATH)/errors.c $(SRC_PATH)/check_and_stocking_args.c $(SRC_PATH)/routine.c $(SRC_PATH)/forks.c  $(SRC_PATH)/get_times.c
+SRC = $(SRC_PATH)/main.c $(SRC_PATH)/utils.c $(SRC_PATH)/check_args.c $(SRC_PATH)/init_all.c $(SRC_PATH)/free_functions.c $(SRC_PATH)/thread_gestion.c \
+		$(SRC_PATH)/monitoring.c $(SRC_PATH)/philo_routine.c $(SRC_PATH)/eat.c $(SRC_PATH)/init_philos.c
 
 OBJ_PATH = ./mandatory/tmp
-OBJ = $(OBJ_PATH)/philosophers.o $(OBJ_PATH)/errors.o $(OBJ_PATH)/check_and_stocking_args.o $(OBJ_PATH)/routine.o $(OBJ_PATH)/forks.o $(SRC_PATH)/get_times.o
-
+OBJ = $(OBJ_PATH)/main.o $(OBJ_PATH)/utils.o $(OBJ_PATH)/check_args.o $(OBJ_PATH)/init_all.o $(OBJ_PATH)/free_functions.o $(OBJ_PATH)/thread_gestion.o \
+		$(OBJ_PATH)/monitoring.o $(OBJ_PATH)/philo_routine.o $(OBJ_PATH)/eat.o $(OBJ_PATH)/init_philos.o
 NAME = philo
 
 all: $(NAME)

@@ -6,7 +6,7 @@
 /*   By: mmilliot <mmilliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:23:03 by mmilliot          #+#    #+#             */
-/*   Updated: 2025/02/19 16:22:59 by mmilliot         ###   ########.fr       */
+/*   Updated: 2025/02/19 20:22:09 by mmilliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ void	*monitoring(void *arg)
 			break ;
 		if (all_meats_finished(data) == true)
 			break ;
+		ft_usleep(1, data->philo);
 	}
 	return (NULL);
 }
