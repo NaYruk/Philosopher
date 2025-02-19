@@ -6,7 +6,7 @@
 /*   By: mmilliot <mmilliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 18:15:15 by mmilliot          #+#    #+#             */
-/*   Updated: 2025/02/18 17:37:05 by mmilliot         ###   ########.fr       */
+/*   Updated: 2025/02/19 17:27:07 by mmilliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 int	create_threads(t_data *data)
 {
-	int	i;
+	int		i;
 	long	start_time;
 
 	i = -1;

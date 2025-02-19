@@ -6,7 +6,7 @@
 /*   By: mmilliot <mmilliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:23:03 by mmilliot          #+#    #+#             */
-/*   Updated: 2025/02/14 19:20:03 by mmilliot         ###   ########.fr       */
+/*   Updated: 2025/02/19 16:22:59 by mmilliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,9 @@ bool	check_philo_death(t_data *data)
 /* 
 	Function Monitoring :
 
-	Check each 10 MS if a philo is dead or if the nbr of meals is reach
+	Check all time if a philo is dead or if the nbr of meals is reach
 	if one of this case is true, the simulation need to stop.
 	in this case, dead = 1 and all philo threads check this variable.
-
 */
 
 void	*monitoring(void *arg)
